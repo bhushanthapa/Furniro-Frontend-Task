@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Furniro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <link rel="icon" type="image/png" sizes="32x32" href="images/logo-icon/favicon-32x32.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- HEADER --> 
+<header>
+  <nav class="navbar">
+
+    <!-- Logo -->
+    <a class="logo" href="index.html">
+      <img src="images/logo-icon/furniro-logo.png" alt="">
+      <span>Furniro</span>
+    </a>
+
+    <!-- Nav Links -->
+    <ul class="nav-links">
+      <li><a href="#" class="active">Home</a></li>
+      <li><a href="#products">Shop</a></li>
+      <li><a href="#footer">About</a></li>
+      <li><a href="#footer">Contact</a></li>
+    </ul>
+
+    <ul class="mobile-menu" id="mobileMenu" style="display:none;">
+      <li><a id="mobileAccountBtn"> My Account <a></li>
+      <li><a href="#products">Shop</a></li>
+      <li><a id="mobileCompareBtn">Compare Product</a></li>
+      <li><a href="#footer">Contact</a></li>
+      <li><a href="#footer">About</a></li>
+   </ul>
+
+    <!-- Icons -->
+    <div class="nav-icons">
+      <button class="icon-btn" id="accountBtn" title="Account">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+      </button>
+      <button class="icon-btn" id="searchBtn" title="Search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      </button>
+      <button class="icon-btn" id="wishlistNavBtn" title="Wishlist">
+        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+        <span class="cart-badge" id="wishBadge">0</span>
+      </button>
+      <button class="icon-btn" id="cartToggleBtn" title="Cart">
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+      <!-- Compare nav icon -->
+      <button class="icon-btn " id="compareNavBtn" title="Compare">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="8" height="18" rx="2"/><rect x="14" y="3" width="8" height="18" rx="2"/></svg>
+        <span class="cart-badge" id="compareBadge">0</span>
+      </button>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+
+    <!-- SEARCH OVERLAY -->
+    <div id="searchOverlay">
+      <div class="search-container">
+        <button id="searchClose">&times;</button>
+        <input id="searchInput" type="text" placeholder="Search products..." />
+      </div>
+    </div>
+
+    <!-- CART DRAWER -->
+    <div class="cart-backdrop" id="cartBackdrop"></div>
+    <div class="cart-drawer" id="cartDrawer">
+      <div class="cart-header">
+        <h3>Shopping Cart</h3>
+        <button class="cart-close-btn" id="cartCloseBtn">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="cart-items" id="cartItems">
+        <div class="cart-empty" id="cartEmpty">
+          <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <p>Your cart is empty</p>
+        </div>
+      </div>
+      <div class="cart-footer">
+        <div class="cart-subtotal">
+          <span>Subtotal</span>
+          <span id="cartTotal">Rp 0</span>
+        </div>
+        <button class="btn-checkout">Checkout</button>
+      </div>
+    </div>
+
+    <!-- WISHLIST DRAWER -->
+    <div class="cart-backdrop" id="wishBackdrop"></div>
+    <div class="cart-drawer" id="wishDrawer">
+      <div class="cart-header">
+        <h3>My Wishlist</h3>
+        <button class="cart-close-btn" id="wishCloseBtn">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="cart-items" id="wishItems">
+        <div class="cart-empty" id="wishEmpty">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <p>No items in wishlist</p>
+        </div>
+      </div>
+    </div>
+
+  </nav>
+</header>
+
+<!-- HERO SECTION -->
+<section class="hero-illustration" id="hero">
+  <div class="hero-content">
+    <p class="hero-tag">New Arrival</p>
+    <h1 class="hero-title">Discover Our<br>New Collection</h1>
+    <p class="hero-desc">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Ut elit tellus, luctus nec ullamcorper mattis.
+    </p>
+    <a href="#browse" class="hero-btn">Buy Now</a>
+  </div>
+</section>
+
+<!-- BROWSE THE RANGE SECTION -->
+<section id="browse">
+  <div class="browse-section">
+    <div class="section-header">
+      <h2>Browse The Range</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    </div>
+    <div class="range-grid">
+      <div class="range-card" data-category="Dining">
+        <div class="range-img-wrap Dining-back">
+          <div class="range-overlay"><a href="#products" class="shop-now-btn">Shop Now</a></div>
+        </div>
+        <h3>Dining</h3>
+      </div>
+      <div class="range-card" data-category="Living">
+        <div class="range-img-wrap Living-back">
+          <div class="range-overlay"><a href="#products" class="shop-now-btn">Shop Now</a></div>
+        </div>
+        <h3>Living</h3>
+      </div>
+      <div class="range-card" data-category="Bedroom">
+        <div class="range-img-wrap Bedroom-back">
+          <div class="range-overlay"><a href="#products" class="shop-now-btn">Shop Now</a></div>
+        </div>
+        <h3>Bedroom</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OUR PRODUCTS SECTION -->
+<section id="products">
+  <div class="products-section">
+    <div class="section-header">
+      <h2>Our Products</h2>
+    </div>
+
+    <div class="products-grid" id="productsGrid">
+
+      <!-- Card 1 -->
+      <div class="product-card" data-id="1" data-name="Syltherine" data-price="2500000" data-category="Dining" data-material="Wood" data-rating="4.5" data-warranty="2 Years" data-color="Brown">
+        <div class="product-img">
+          <img src="images/product/product-1.png" alt="Syltherine" />
+          <span class="product-badge badge-sale">-30%</span>
+          <button class="card-wish-btn" title="Wishlist">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+          <div class="product-overlay">
+            <button class="btn-addcart">Add to cart</button>
+            <div class="overlay-actions">
+              <button class="overlay-action-btn btn-compare">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="8" height="18" rx="2"/><rect x="14" y="3" width="8" height="18" rx="2"/></svg>Compare
+              </button>
+              <button class="overlay-action-btn btn-share"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>Share</button>
+            </div>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Syltherine</div>
+          <div class="product-desc">Stylish cafe chair</div>
+          <div class="product-prices">
+            <span class="price-current">Rp 2.500.000</span>
+            <span class="price-old">Rp 3.500.000</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="product-card" data-id="2" data-name="Leviosa" data-price="2500000" data-category="Living" data-material="Fabric" data-rating="4.2" data-warranty="1 Year" data-color="Gray">
+        <div class="product-img">
+          <img src="images/product/product-2.png" alt="Leviosa" />
+          <button class="card-wish-btn" title="Wishlist">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+          <div class="product-overlay">
+            <button class="btn-addcart">Add to cart</button>
+            <div class="overlay-actions">
+              <button class="overlay-action-btn btn-compare">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="8" height="18" rx="2"/><rect x="14" y="3" width="8" height="18" rx="2"/></svg>Compare
+              </button>
+              <button class="overlay-action-btn btn-share"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>Share</button>
+            </div>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Leviosa</div>
+          <div class="product-desc">Stylish cafe chair</div>
+          <div class="product-prices">
+            <span class="price-current">Rp 2.500.000</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="product-card" data-id="3" data-name="Lolito" data-price="7000000" data-category="Living" data-material="Leather" data-rating="4.8" data-warranty="3 Years" data-color="Black">
+        <div class="product-img">
+          <img src="images/product/product-3.png" alt="Lolito" />
+          <span class="product-badge badge-sale">-50%</span>
+          <button class="card-wish-btn" title="Wishlist">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+          <div class="product-overlay">
+            <button class="btn-addcart">Add to cart</button>
+            <div class="overlay-actions">
+              <button class="overlay-action-btn btn-compare">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="8" height="18" rx="2"/><rect x="14" y="3" width="8" height="18" rx="2"/></svg>Compare
+              </button>
+              <button class="overlay-action-btn btn-share"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>Share</button>
+            </div>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Lolito</div>
+          <div class="product-desc">Luxury big sofa</div>
+          <div class="product-prices">
+            <span class="price-current">Rp 7.000.000</span>
+            <span class="price-old">Rp 14.000.000</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="product-card" data-id="4" data-name="Respira" data-price="500000" data-category="Dining" data-material="Metal" data-rating="4.0" data-warranty="1 Year" data-color="White">
+        <div class="product-img">
+          <img src="images/product/product-4.jpg" alt="Respira" />
+          <span class="product-badge badge-new">New</span>
+          <button class="card-wish-btn" title="Wishlist">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+          <div class="product-overlay">
+            <button class="btn-addcart">Add to cart</button>
+            <div class="overlay-actions">
+              <button class="overlay-action-btn btn-compare">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="8" height="18" rx="2"/><rect x="14" y="3" width="8" height="18" rx="2"/></svg>Compare
+              </button>
+              <button class="overlay-action-btn btn-share"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>Share</button>
+            </div>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Respira</div>
+          <div class="product-desc">Outdoor bar table and stool</div>
+          <div class="product-prices">
+            <span class="price-current">Rp 500.000</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="product-card" data-id="5" data-name="Grifo" data-price="1500000" data-category="Bedroom" data-material="Glass" data-rating="4.3" data-warranty="1 Year" data-color="Gold">
+        <div class="product-img">
+          <img src="images/product/product-5.png" alt="Grifo" />
+          <button class="card-wish-btn" title="Wishlist">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+          <div class="product-overlay">
+            <button class="btn-addcart">Add to cart</button>
+            <div class="overlay-actions">
+              <button class="overlay-action-btn btn-compare">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="8" height="18" rx="2"/><rect x="14" y="3" width="8" height="18" rx="2"/></svg>Compare
+              </button>
+              <button class="overlay-action-btn btn-share"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>Share</button>
+            </div>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Grifo</div>
+          <div class="product-desc">Night lamp</div>
+          <div class="product-prices">
+            <span class="price-current">Rp 1.500.000</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="product-card" data-id="6" data-name="Muggo" data-price="150000" data-category="Dining" data-material="Ceramic" data-rating="3.9" data-warranty="6 Months" data-color="Beige">
+        <div class="product-img">
+          <img src="images/product/product-6.png" alt="Muggo" />
+          <span class="product-badge badge-new">New</span>
+          <button class="card-wish-btn" title="Wishlist">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+          <div class="product-overlay">
+            <button class="btn-addcart">Add to cart</button>
+            <div class="overlay-actions">
+              <button class="overlay-action-btn btn-compare">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="8" height="18" rx="2"/><rect x="14" y="3" width="8" height="18" rx="2"/></svg>Compare
+              </button>
+              <button class="overlay-action-btn btn-share"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>Share</button>
+            </div>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Muggo</div>
+          <div class="product-desc">Small mug</div>
+          <div class="product-prices">
+            <span class="price-current">Rp 150.000</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 7 -->
+      <div class="product-card" data-id="7" data-name="Pingky" data-price="7000000" data-category="Bedroom" data-material="Fabric" data-rating="4.6" data-warranty="2 Years" data-color="Pink">
+        <div class="product-img">
+          <img src="images/product/product-7.jpg" alt="Pingky" />
+          <span class="product-badge badge-sale">-50%</span>
+          <button class="card-wish-btn" title="Wishlist">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+          <div class="product-overlay">
+            <button class="btn-addcart">Add to cart</button>
+            <div class="overlay-actions">
+              <button class="overlay-action-btn btn-compare">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="8" height="18" rx="2"/><rect x="14" y="3" width="8" height="18" rx="2"/></svg>Compare
+              </button>
+              <button class="overlay-action-btn btn-share"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>Share</button>
+            </div>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Pingky</div>
+          <div class="product-desc">Cute bed set</div>
+          <div class="product-prices">
+            <span class="price-current">Rp 7.000.000</span>
+            <span class="price-old">Rp 14.000.000</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 8 -->
+      <div class="product-card" data-id="8" data-name="Potty" data-price="500000" data-category="Bedroom" data-material="Plastic" data-rating="3.7" data-warranty="6 Months" data-color="Green">
+        <div class="product-img">
+          <img src="images/product/product-8.jpg" alt="Potty" />
+          <span class="product-badge badge-new">New</span>
+          <button class="card-wish-btn" title="Wishlist">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+          <div class="product-overlay">
+            <button class="btn-addcart">Add to cart</button>
+            <div class="overlay-actions">
+              <button class="overlay-action-btn btn-compare">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="8" height="18" rx="2"/><rect x="14" y="3" width="8" height="18" rx="2"/></svg>Compare
+              </button>
+              <button class="overlay-action-btn btn-share"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>Share</button>
+            </div>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Potty</div>
+          <div class="product-desc">Minimalist flower pot</div>
+          <div class="product-prices">
+            <span class="price-current">Rp 500.000</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /products-grid -->
+
+    <div class="show-more-wrap">
+      <button class="btn-show-more" id="btnShowMore">Show More</button>
+    </div>
+  </div>
+</section>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- ════════════ COMPARE PRODUCTS SECTION ════════════ -->
+<section id="compareSection" class="hidden">
+  <div class="compare-section">
+    <div class="section-header">
+      <h2>Compare Products</h2>
+      <p>Select up to 4 products to compare side by side.</p>
+    </div>
+
+    <!-- Compare tray (floating bar) — shows when items are picked -->
+    <div class="compare-tray" id="compareTray">
+      <div class="compare-tray-slots" id="compareTraySlots">
+        <!-- filled by JS -->
+      </div>
+      <div class="compare-tray-actions">
+        <button class="btn-compare-now" id="btnCompareNow">Compare Now</button>
+        <button class="btn-clear-compare" id="btnClearCompare">Clear All</button>
+      </div>
+    </div>
+
+    <!-- The actual comparison table -->
+    <div class="compare-table-wrap" id="compareTableWrap" style="display:none;">
+      <div class="compare-table" id="compareTable">
+        <!-- built by JS -->
+      </div>
+    </div>
+
+    <!-- Empty state -->
+    <div class="compare-empty" id="compareEmpty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="8" height="18" rx="2"/><rect x="14" y="3" width="8" height="18" rx="2"/></svg>
+      <p>No products selected yet.<br>Hover any product card and click <strong>Compare</strong> to add it here.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ ROOM INSPIRATION SECTION ════════════ -->
+<section class="inspiration-section" id="inspiration">
+  <div class="inspiration-inner">
+
+    <div class="insp-text">
+      <h2>50+ Beautiful rooms inspiration</h2>
+      <p>Our designer already made a lot of beautiful prototype of rooms that inspire you.</p>
+      <button class="btn-explore" id="btnExplore">Explore More</button>
+    </div>
+
+    <div class="insp-slider-wrap" id="sliderWrap">
+      <div class="insp-track" id="sliderTrack">
+        <div class="insp-slide">
+          <img src="images/slider/slider-img-1.png" alt="Bed Room">
+          <div class="slide-label">
+            <span class="slide-label-num">01 &mdash;&nbsp; Bed Room</span>
+            <span class="slide-label-name">Inner Peace</span>
+          </div>
+          <!-- Arrow Button -->
+          <a href="#" class="slide-arrow">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+        </div>
+        <div class="insp-slide">
+          <img src="images/slider/slider-img-2.png" alt="Living Room">
+          <div class="slide-label">
+            <span class="slide-label-num">02 &mdash;&nbsp; Living Room</span>
+            <span class="slide-label-name">Modern Comfort</span>
+          </div>
+          <!-- Arrow Button -->
+          <a href="#" class="slide-arrow">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+        </div>
+        <div class="insp-slide">
+          <img src="images/slider/slider-img-3.png" alt="Dining Room">
+          <div class="slide-label">
+            <span class="slide-label-num">03 &mdash;&nbsp; Dining Room</span>
+            <span class="slide-label-name">Golden Hour</span>
+          </div>
+          <!-- Arrow Button -->
+          <a href="#" class="slide-arrow">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+        </div>
+        <div class="insp-slide">
+          <img src="images/slider/slider-img-4.png" alt="Home office">
+          <div class="slide-label">
+            <span class="slide-label-num">04 &mdash;&nbsp; Home Office</span>
+            <span class="slide-label-name">Focus Space</span>
+          </div>
+          <!-- Arrow Button -->
+          <a href="#" class="slide-arrow">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+        </div>
+      </div>
+
+      <button class="slider-arrow" id="sliderNext">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <div class="slider-dots" id="sliderDots"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ GALLERY — #FuniroFurniture ════════════ -->
+<section id="gallery">
+  <div class="gallery-header">
+    <p class="gallery-sub">Share your setup with</p>
+    <h2 class="gallery-title">#FuniroFurniture</h2>
+  </div>
+
+  <!-- FIX: wrapper so zones overlay the viewport from outside overflow:hidden -->
+  <div class="gallery-wrap">
+    <div id="zoneLeft"  class="gallery-zone"></div>
+    <div id="zoneRight" class="gallery-zone"></div>
+
+    <div class="gallery-viewport" id="galleryViewport">
+      <div class="gallery-track" id="galleryTrack">
+        <div class="g-item"><img src="images/gallery/gallery-img-1.png" alt="Room 1"></div>
+        <div class="g-item"><img src="images/gallery/gallery-img-2.png" alt="Room 2"></div>
+        <div class="g-item"><img src="images/gallery/gallery-img-3.png" alt="Room 3"></div>
+        <div class="g-item"><img src="images/gallery/gallery-img-4.png" alt="Room 4"></div>
+        <div class="g-item"><img src="images/gallery/gallery-img-5.png" alt="Room 5"></div>
+        <div class="g-item"><img src="images/gallery/gallery-img-6.png" alt="Room 6"></div>
+        <div class="g-item"><img src="images/gallery/gallery-img-7.png" alt="Room 7"></div>
+        <div class="g-item"><img src="images/gallery/gallery-img-8.png" alt="Room 8"></div>
+        <div class="g-item"><img src="images/gallery/gallery-img-9.png" alt="Room 9"></div>
+        <!-- Duplicates for seamless loop -->
+        <div class="g-item"><img src="images/gallery/gallery-img-1.png" alt="Room 1"></div>
+        <div class="g-item"><img src="images/gallery/gallery-img-2.png" alt="Room 2"></div>
+        <div class="g-item"><img src="images/gallery/gallery-img-3.png" alt="Room 3"></div>
+        <div class="g-item"><img src="images/gallery/gallery-img-4.png" alt="Room 4"></div>
+        <div class="g-item"><img src="images/gallery/gallery-img-5.png" alt="Room 5"></div>
+        <div class="g-item"><img src="images/gallery/gallery-img-6.png" alt="Room 6"></div>
+        <div class="g-item"><img src="images/gallery/gallery-img-7.png" alt="Room 7"></div>
+        <div class="g-item"><img src="images/gallery/gallery-img-8.png" alt="Room 8"></div>
+        <div class="g-item"><img src="images/gallery/gallery-img-9.png" alt="Room 9"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer id="footer">
+  <div class="footer-inner">
+    <div class="footer-col footer-brand">
+      <h3 class="footer-logo">Furniro.</h3>
+      <p class="footer-addr">
+        400 University Drive Suite 200 Coral<br>
+        Gables, FL 33134 USA
+      </p>
+    </div>
+    <div class="footer-col">
+      <h4 class="footer-col-title">Links</h4>
+      <ul class="footer-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Shop</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 class="footer-col-title">Help</h4>
+      <ul class="footer-links">
+        <li><a href="#">Payment Options</a></li>
+        <li><a href="#">Returns</a></li>
+        <li><a href="#">Privacy Policies</a></li>
+      </ul>
+    </div>
+    <div class="footer-col footer-newsletter">
+      <h4 class="footer-col-title">Newsletter</h4>
+      <div class="newsletter-form">
+        <input type="email" id="newsletterEmail" placeholder="Enter Your Email Address" />
+        <button id="subscribeBtn">SUBSCRIBE</button>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <p>2023 Furniro. All rights reserved</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
