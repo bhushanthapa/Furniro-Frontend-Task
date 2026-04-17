@@ -50,7 +50,7 @@ header { position: sticky; top: 0; z-index: 999; background: var(--bg); border-b
 
 /* ════ HERO ════ */
 #browse { scroll-margin-top: 80px; }
-.hero-illustration { position: relative; width: 100%; height: calc(100vh - 72px); min-height: 500px; overflow: hidden; background: url('images /hero/hero-img-back.png') no-repeat center/cover; display: flex; align-items: center; }
+.hero-illustration { position: relative; width: 100%; height: calc(100vh - 72px); min-height: 500px; overflow: hidden; background: url('images/hero/hero-img-back.png') no-repeat center/cover; display: flex; align-items: center; }
 .hero-content { position: relative; z-index: 2; margin-left: auto; margin-right: 8%; background: rgba(255,243,226,0.92); padding: clamp(28px,4vw,52px) clamp(20px,3vw,44px); max-width: min(40%,520px); width: 100%; border-radius: 4px; backdrop-filter: blur(2px); animation: slideIn 0.7s ease forwards; }
 @keyframes slideIn { from { opacity:0; transform:translateX(50px); } to { opacity:1; transform:translateX(0); } }
 .hero-tag { font-size: clamp(11px,1.1vw,13px); font-weight: 500; color: #333; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px; }
